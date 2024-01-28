@@ -1,0 +1,20 @@
+--------------Create Database-----------------
+CREATE DATABASE db_name;
+--------------Use Database--------------------
+USE db_name;
+--------------Create Table--------------------
+CREATE TABLE product(
+	pid INT,
+	pname VARCHAR(50),
+	pcompany VARCHAR(50),
+	price INT
+);
+-------------Insert Data ----------------------
+INSERT INTO `personal`(id, NAME, birth_date, phone, gender)
+VALUES (1, "Ram Kumar", "1990-07-15", "9999999999", "M");
+------------Insert Multiple Record--------------------
+INSERT INTO personal(id, NAME, birth_date, phone, gender)
+VALUES
+(3, "Anil Kapoor", "1991-10-05", "6789876543", "M"),
+(4, "Juhi Chawla", "1992-03-25", "5678909876", "F"),
+(5, "John Abraham", "1992-02-07", "1234567876", "M");
