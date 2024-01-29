@@ -12,9 +12,127 @@ CREATE TABLE product(
 -------------Insert Data ----------------------
 INSERT INTO `personal`(id, NAME, birth_date, phone, gender)
 VALUES (1, "Ram Kumar", "1990-07-15", "9999999999", "M");
+
 ------------Insert Multiple Record--------------------
 INSERT INTO personal(id, NAME, birth_date, phone, gender)
 VALUES
 (3, "Anil Kapoor", "1991-10-05", "6789876543", "M"),
 (4, "Juhi Chawla", "1992-03-25", "5678909876", "F"),
-(5, "John Abraham", "1992-02-07", "1234567876", "M");
+(5, "John Abraham", "1992-02-07", "1234567876", "M");	
+
+--------------------------------Constraints-----------------------------
+Constraints use when we provide restrictions in columns
+CREATE TABLE personal(
+	id INT NOT NULL UNIQUE,
+	NAME VARCHAR(50) NOT NULL,
+	age INT NOT NULL CHECK(age >= 18),
+	gender VARCHAR(1) NOT NULL,
+	phone VARCHAR(10) NOT NULL UNIQUE,
+	city VARCHAR(15) NOT NULL DEFAULT 'Agra'
+	
+	
+);
+--------------------------Select Command-------------------------------------
+SELECT * FROM table_name
+SELECT NAME,gender FROM table_name ->for selected columns
+
+----------------------Use of alias in select command--------------------------
+SELECT id AS Id, NAME AS Student, phone AS Phone FROM table_name
+
+if alias name as space like "Student Name" 
+SELECT id AS Id, NAME AS "Student Name", age AS Age FROM personal
+
+-----------------------Select Data with where clause-------------------------
+SELECT * FROM personal
+WHERE gender = "F";
+
+SELECT * FROM personal
+WHERE age = 15;
+
+SELECT * FROM personal
+WHERE city != "Agra";
+
+
+<> ->this also work for notequal to operator
+SELECT NAME AS "Student Name", id AS "Roll Number" FROM personal
+WHERE city <> "Agra";
+
+---------------------select data with AND & OR operator----------------------
+SELECT * FROM personal
+WHERE age>= 18 AND age<=21
+
+SELECT * FROM personal 
+WHERE age<=20 AND gender="M"
+
+SELECT * FROM personal 
+WHERE age <= 20 OR gender="M" OR city="Agra"
+
+SELECT * FROM personal 
+WHERE (city = "Agra" OR city = "Bhopal") AND gender = "M"
+
+-----------------------use of Not operater-----------------------------
+
+shows records of students whose are not from agra also city= bhopal
+SELECT * FROM personal 
+WHERE NOT city = "Agra" OR city = "Bhopal"
+
+shows resuls of students whose age less than 20
+SELECT * FROM personal 
+WHERE NOT age>=20
+
+--------------------Select Data with IN operator------------------------
+SELECT * FROM personal 
+WHERE age IN(18,22)
+
+---------------------select data with NOT IN operator---------------------
+SELECT * FROM personal 
+WHERE age NOT IN(18,22) ->shows age which havn't 18 and 22.
+
+SELECT * FROM personal 
+WHERE city NOT IN("Agra") ->get record which is not from Agra
+
+
+---------------------Select Operator with Between Operator----------------
+SELECT * FROM personal 
+WHERE age BETWEEN 18 AND 21
+
+fetch record where age >= 18 and age<=21
+
+SELECT * FROM personal 
+WHERE age NOT BETWEEN 18 AND 21
+
+SELECT * FROM personal 
+WHERE id  BETWEEN 2 AND 4
+
+this operator also work on strings columns
+SELECT * FROM personal 
+WHERE NAME BETWEEN "a" AND "K"; 
+SELECT * FROM persons
+WHERE birth_date BETWEEN "1995-01-01" AND "1995-06-30";
+
+------------------------Like Operator With Select---------------
+SELECT * FROM personal
+WHERE NAME LIKE "J%"
+
+SELECT * FROM personal
+WHERE NAME LIKE "r%" OR NAME LIKE "s%";
+
+SELECT * FROM personal
+WHERE NAME NOT LIKE "j%"
+
+----------------------Use binary------------------
+SELECT * FROM personal
+WHERE BINARY NAME LIKE "%a"
+
+SELECT * FROM personal
+WHERE  phone LIKE "%99"
+
+SELECT * FROM personal
+WHERE  phone NOT LIKE "%99"
+
+SELECT * FROM personal
+WHERE  NAME  LIKE "r_m%"
+
+
+
+
