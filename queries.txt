@@ -231,6 +231,51 @@ SELECT SUM(age) AS Total FROM personal
 avg function
 SELECT AVG(age) AS Average FROM personal
 
+------------------------------------Update Query---------------------------
+UPDATE personal 
+SET phone = "88888"
+WHERE id = 1; -> if we can't mention record which we want to update it update all records
+
+update multiple columns of record
+UPDATE personal 
+SET birth_date = "2000-12-17", NAME="Sabahat Zainab", gender="F"
+WHERE id=1;
+
+update multiple records
+UPDATE personal
+SET phone="777888"
+WHERE id IN (2,3)
+
+----------------------Rollback in MySql----------------------------
+if we want to rollback previous
+Rollback; ->this command rollback all the previous commands
+Commit; -> rollback se pahli wale jitne bhe command hai unko commit kardete hai permanent save kardete hai
+
+------------------Commit & Rollback Works for --------------------------
+only this commands
+-Insert
+-update
+-delete
+
+
+SELECT * FROM personal
+
+COMMIT;
+
+UPDATE personal
+SET gender="M"
+WHERE id = 1;
+
+ROLLBACK
+
+-------------------------------Delete Command ------------------------------------
+DELETE FROM personal WHERE id=1;
+
+if we can't specify where condition it delete whole records of table
+Delete from personal;
+
+DELETE FROM personal WHERE gender = 'm';
+
 
 
 
