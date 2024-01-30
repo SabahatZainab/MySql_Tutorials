@@ -133,6 +133,114 @@ WHERE  phone NOT LIKE "%99"
 SELECT * FROM personal
 WHERE  NAME  LIKE "r_m%"
 
+-----------------------Regular Expression----------------
+SELECT * FROM personal
+WHERE NAME REGEXP 'ra';
+
+SELECT * FROM personal
+WHERE NAME REGEXP '^ra';
+fetch record which start from 'ra'
+
+SELECT * FROM personal
+WHERE NAME REGEXP 'r$';
+fetch record which end with 'r'
+
+SELECT * FROM personal
+WHERE NAME REGEXP 'ram|kapoor|khan'
+fetch record which have ram or kapoor or khan in any position
+
+SELECT * FROM personal
+WHERE NAME REGEXP '^ram|poor|khan$'
+
+SELECT * FROM personal
+WHERE NAME REGEXP '[si]';
+
+SELECT * FROM personal
+WHERE NAME REGEXP '[rmh]a';
+
+SELECT * FROM personal
+WHERE NAME REGEXP '^[rs]'; ->Search records which start from r or s
+
+SELECT * FROM personal
+WHERE NAME REGEXP '[rs]$';->search records which end with r or s.
+
+SELECT * FROM personal
+WHERE NAME REGEXP 'r[am]'; ->search combination of ra or rm
+
+SELECT * FROM personal
+WHERE NAME REGEXP '[a-j]r';
+
+---------------------Select Statement With OrderBy-----------------------
+SELECT * FROM personal
+ORDER BY NAME;
+
+SELECT * FROM personal
+ORDER BY NAME DESC;
+
+SELECT * FROM personal
+ORDER BY NAME ASC; ->no need to specify Ascending Order
+
+SELECT * FROM personal
+WHERE city = "Agra"
+ORDER BY NAME;
+
+SELECT * FROM personal
+ORDER BY NAME, city;
+
+------------------------Select Statement with Distinct -------------------------
+SELECT DISTINCT city FROM personal;
+
+SELECT DISTINCT age FROM personal
+ORDER BY age;
+
+--------------------------Select with IS NULL ---------------------------------
+SELECT * FROM personal
+WHERE age IS NULL;
+
+--------------------------Select with IS NOT NULL ------------------------------
+SELECT * FROM personal
+WHERE age IS NOT NULL;
+
+------------------------Select Data with Limit-----------------------------------
+SELECT * FROM personal
+LIMIT 3; ->showing first three records
+
+-----------------------Select Data with Limit and Offset-------------------------
+SELECT * FROM personal
+LIMIT 2,4
+
+----------------------Select Data with Agregate function---------------------------
+count function
+SELECT COUNT(NAME) FROM personal ->display total number of records
+
+
+SELECT COUNT(*) FROM personal ->display total number of records
+
+SELECT COUNT(DISTINCT city) FROM personal ->total number of distinct cities
+
+SELECT COUNT(DISTINCT city) AS result FROM personal ->give alias to columns
+
+max function
+SELECT MAX(DISTINCT age) AS Age FROM personal
+
+SELECT COUNT(*) AS Records_Total, MAX(DISTINCT city) AS City FROM personal
+
+sum function
+SELECT SUM(age) AS Total FROM personal
+
+avg function
+SELECT AVG(age) AS Average FROM personal
+
+
+
+
+
+
+
+
+
+
+
 
 
 
