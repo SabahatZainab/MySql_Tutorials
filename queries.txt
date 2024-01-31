@@ -276,7 +276,91 @@ Delete from personal;
 
 DELETE FROM personal WHERE gender = 'm';
 
+----------------------------primary key & foreign key Constraints----------------------
+CREATE TABLE city(
+	cid INT NOT NULL AUTO_INCREMENT,
+	cityname VARCHAR(20) NOT NULL,
+	PRIMARY KEY(cid)
+);
 
+INSERT INTO city(cityname)
+VALUES ('Agra'),('Delhi'),('Bhopal'),('Jaipur'),('Noida');
+
+CREATE TABLE personal(
+	id INT NOT NULL,
+	NAME VARCHAR(50) NOT NULL,
+	percentage INT NOT NULL,
+	age INT NOT NULL,
+	gender VARCHAR(1) NOT NULL,
+	city INT NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (city) REFERENCES City (cid)
+);
+
+INSERT INTO personal(id, NAME, percentage, age, gender, city)
+VALUES (1, "Ram Kumar", 45, 19, "M", 1),
+(2, "Sarita Kumari",55, 22, "F",2),
+(3,"Salman Khan", 62, 20, "M", 1),
+(4, "Juhi Chawla", 47, 18, "F", 3),
+(5, "Anil Kapoor", 74, 22, "M", 1),
+(6, "John Abraham", 64, 21, "M",2),
+
+--------------------------------Joins-------------------------
+1- Inner Joins
+2- left Joins
+3- right Joins
+4- cross Joins
+
+---------------------------------inner joins -----------------=
+SELECT * FROM personal INNER JOIN city
+ON personal.city = city.`cid`;
+
+use of alias
+SELECT * FROM personal p INNER JOIN city c
+ON p.city = c.`cid`;
+
+SELECT p.id, p.name, p.`percentage`, p.`age`,p.`gender`,c.`cityname` FROM personal p INNER JOIN city c
+ON p.city = c.`cid`; 
+
+SELECT p.id, p.name, p.`percentage`, p.`age`,p.`gender`,c.`cityname` 
+FROM personal p INNER JOIN city c
+ON p.city = c.`cid`
+WHERE c.`cityname` = "Agra";
+
+----------------------------------left joins-------------------------
+SELECT * FROM personal p
+LEFT JOIN city c
+ON p.`city`= c.`cid`
+ORDER BY p.id;
+
+SELECT p.id,p.name,p.`percentage`,p.`age`,p.`gender`,c.`cityname` FROM personal p
+LEFT JOIN city c
+ON p.`city`= c.`cid`
+ORDER BY p.id;
+
+SELECT p.id,p.name,p.`percentage`,p.`age`,p.`gender`,c.`cityname` FROM personal p
+LEFT JOIN city c
+ON p.`city`= c.`cid`
+WHERE p.gender="M"
+ORDER BY p.id
+
+---------------------------------right joins --------------------------------
+SELECT * FROM personal p
+RIGHT JOIN city c
+ON p.city=c.`cid`
+
+------------------------------cross joins -----------------------------------
+SELECT * FROM personal
+CROSS JOIN city;
+
+in cross joins we don't need primary and foreign key.
+
+SELECT p.`id`,p.`name` AS NAME,c.`cityname` AS City FROM personal p
+CROSS JOIN city c;
+
+SELECT p.`id`,p.`name` AS NAME,c.`cityname` AS City FROM personal p, city c;
+
+above both query provide similar result, provide combination of records.
 
 
 
