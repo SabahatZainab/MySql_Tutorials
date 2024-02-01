@@ -364,6 +364,139 @@ above both query provide similar result, provide combination of records.
 
 
 
+------------------------------------------------worked on multiple joins-----------------------
+
+CREATE TABLE City(
+	cid INT NOT NULL AUTO_INCREMENT,
+	cityname VARCHAR(20) NOT NULL,
+	PRIMARY KEY(cid)
+);
+
+INSERT INTO City(cityname)
+VALUES('Agra'),('Delhi'),('Bhopal'),('Jaipur'),('Noida');
+
+CREATE TABLE Courses(
+	course_id INT NOT NULL AUTO_INCREMENT,
+	course_name VARCHAR(20) NOT NULL,
+	PRIMARY KEY(course_id)
+);
+
+INSERT INTO courses(course_name)
+VALUES('Btech'),('BCA'),('MBA');
+
+CREATE TABLE personal(
+	id INT NOT NULL AUTO_INCREMENT,
+	NAME VARCHAR(50) NOT NULL,
+	percentage INT NOT NULL,
+	age INT NOT NULL,
+	gender VARCHAR(1) NOT NULL,
+	city INT NOT NULL,
+	courses INT NOT NULL,
+	PRIMARY KEY(id),
+	FOREIGN KEY(city) REFERENCES City(cid),
+	FOREIGN KEY(courses) REFERENCES Courses(course_id)
+);
+
+INSERT INTO personal(NAME, percentage, age, gender, city, courses)
+VALUES('Ram Kumar',45,19,'M',1,1),
+('Sarita Kumari', 55, 22 , 'F', 2, 2),
+('Salman Khan', 62, 20, 'M', 1, 1),
+('Juhi Chawla', 47, 18, 'F', 3,1),
+('Anil Kapoor',74,22, 'M', 1,3),
+('John Abraham', 64, 21, 'M', 2, 2),
+('Shahid Kapoor', 52, 20, 'M', 1,3);
+
+
+----------------------------multiple join query------------------------
+SELECT p.`id`,p.`NAME`,c.`cityname`,cs.`course_name` FROM personal p
+INNER JOIN city c
+ON p.`city`=c.`cid`
+INNER JOIN courses cs
+ON p.`courses`=cs.`course_id`
+
+------------------------------multiple join query with where clause---------
+
+SELECT p.`id`,p.`NAME`,c.`cityname`,cs.`course_name` FROM personal p
+INNER JOIN city c
+ON p.`city`=c.`cid`
+INNER JOIN courses cs
+ON p.`courses`=cs.`course_id`
+WHERE c.`cityname`= 'Agra';
+
+---------------------------select with group by-----------------------------------
+SELECT city , COUNT(city) FROM personal
+GROUP BY city;
+
+SELECT c.`cityname`,COUNT(p.`city`) AS Total FROM personal p
+INNER JOIN city c
+ON p.`city`=c.`cid`
+WHERE p.age >= 20
+GROUP BY city;
+
+SELECT c.`cityname`,COUNT(p.`city`) AS Total FROM personal p
+INNER JOIN city c
+ON p.`city`=c.`cid`
+GROUP BY city
+ORDER BY COUNT(p.`city`);
+
+
+------------------------------select with having clause --------------------------------
+SELECT c.`cityname`,COUNT(p.`city`) AS Total FROM personal p
+INNER JOIN city c
+ON p.`city`=c.`cid`
+GROUP BY city
+HAVING COUNT(p.city)>3
+ORDER BY COUNT(p.`city`);
+
+--------------------------------sub query or nested query---------------------------------
+SELECT NAME FROM personal
+WHERE courses = (SELECT course_id FROM courses WHERE course_name = "MBA");
+
+for searching multiple students who enrolled in courses
+SELECT NAME FROM personal
+WHERE courses IN (SELECT course_id FROM courses WHERE course_name IN( "MBA","Btech"));
+
+--------------------------------select with exists-------------------------------------
+SELECT NAME FROM personal
+WHERE EXISTS(SELECT course_id FROM courses WHERE course_name="MBA"); ->MBA course, availabe hai courses table ma mana subquery return karege record to parent query bhe name return kare ge
+
+if we can search other random record which is not available in courses table
+
+SELECT NAME FROM personal
+WHERE EXISTS(SELECT course_id FROM courses WHERE course_name="BA"); ->now return doesn't return anything
+
+--------------------------------------select with not exits --------------------------------------------
+agr subquery return nhi karege phr he parent query return karege
+SELECT NAME FROM personal
+WHERE NOT EXISTS(SELECT course_id FROM courses WHERE course_name="BA");
+
+
+SELECT NAME FROM personal
+WHERE NOT EXISTS(SELECT course_id FROM courses WHERE course_name="MBA"); ->course found then parent query doesn't return anything
+
+-----------------------------------select with union & union all-------------------------------------------
+SELECT NAME FROM personal
+UNION 
+SELECT NAME FROM lectures
+
+SELECT NAME FROM personal
+UNION All
+SELECT NAME FROM lectures
+
+SELECT id, NAME FROM personal WHERE gender = "M"
+UNION ALL
+SELECT id , NAME FROM lectures WHERE gender = "F"
+
+
+
+
+
+
+
+
+
+
+
 
 
 
