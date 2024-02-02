@@ -487,6 +487,186 @@ SELECT id, NAME FROM personal WHERE gender = "M"
 UNION ALL
 SELECT id , NAME FROM lectures WHERE gender = "F"
 
+---------------------------------------select with union & union all + joins---------------------------------
+SELECT p.id, p.name, p.age, c.cityname
+FROM personal p
+INNER JOIN city c
+WHERE c.cityname = "Delhi"
+UNION ALL 
+SELECT l.id, l.name, l.age, ci.cityname
+FROM lectures l
+INNER JOIN city ci
+WHERE ci.cityname = "Delhi"
+
+------------------------------------select with if/else -----------------------------------------------------
+SELECT id, NAME, percentage,
+IF(percentage>=33, "Pass", "Fail") AS Result
+FROM personal
+
+explanation in if statement three parameter pass first is condition, 2nd parameter is if (if) is true that paticular part executed, else third parameter part executed.
+
+--------------------------------------select with case ---------------------------------------
+work like if else
+SELECT id, NAME, percentage,
+CASE 
+	WHEN percentage >= 80 AND percentage <=100 THEN "Merit"
+	WHEN percentage >= 60 AND percentage < 80 THEN "1st Division"
+	WHEN percentage >= 45 AND percentage < 60 THEN "11st Division"
+	WHEN percentage >=33 AND percentage < 45 THEN "111st Division"
+	WHEN percentage < 33 THEN "Fail"
+	ELSE "Not Correct %"
+END AS Grade
+FROM personal;
+
+this case also used in update statement
+UPDATE personal SET 
+percentage = (CASE id
+	WHEN 3 THEN 39
+	WHEN 7 THEN 62
+END)
+WHERE id IN (3,7)
+
+this query update percentage of id 3 and 7, 3 to 39 and 7 id to 62
+
+-------------------------------------------Arithmetic Operation in mysql-----------------------------
+SELECT id, NAME , (percentage+5) AS "New Percentage" FROM personal
+
+SELECT id, NAME , (percentage * 5) AS "New Percentage" FROM personal
+
+SELECT PI() ->result 3.141593
+
+SELECT ROUND(4.49) ->return 4
+SELECT ROUND(4.51) ->return 5
+
+SELECT ROUND(-4.51) ->return -5
+SELECT ROUND(-4.49) ->return -4
+
+SELECT ROUND(87897.897) ->return 87897
+SELECT ROUND(87897.897,2) ->return 87897.90
+
+SELECT CEIL(1.89) ->return 2
+SELECT CEIL(1.2) ->return 2
+
+SELECT FLOOR(1.31) ->return 1
+SELECT FLOOR(1.89) ->return 1
+
+SELECT POW(2,3) // 2*2*2=8
+SELECT SQRT(16) ->return 4
+SELECT ROUND(SQRT(5)) ->return 2
+
+
+SELECT RAND() ->return random value 0 and 1
+SELECT RAND() * 100 -> return random value between 1 and 100
+
+SELECT ROUND(RAND() * 100) -> return round random value between 1 and 100
+
+-------------------------------------------Alter Table -------------------------------------
+
+--reorder column email after name
+ALTER TABLE personal 
+MODIFY Email VARCHAR(255)
+AFTER NAME;
+
+--add email column in personal table
+ALTER TABLE personal 
+ADD Email VARCHAR(255)
+
+--change datatype of email column
+ALTER TABLE personal
+MODIFY Email INT(10)
+
+--add Constraints to email column
+ALTER TABLE personal 
+ADD UNIQUE (Email)
+
+--remane email column to email_id 
+ALTER TABLE personal
+CHANGE Email Email_id VARCHAR(255);
+
+--drop column from table personal
+ALTER TABLE personal
+DROP COLUMN Email_id
+
+--rename table name
+ALTER TABLE personal 
+RENAME students
+
+--agr ap chahte hai primary key ma record kis number se start hn value
+ALTER TABLE city
+AUTO_INCREMENT = 10;
+
+----------------------------------drop and truncate command ---------------------------
+drop column se data ki sath sath table bhe delete hnjata hai truncate se sirf data delete hnte hai columns rahte hai
+
+TRUNCATE TABLE city
+
+DROP TABLE city
+
+---------------------------------------view in mysql -----------------------------------
+hum bar bar queries likhe bare bare as ki liya humare pass option hai hum database ma query result save karra le reusability ki liya
+
+CREATE VIEW studentdata
+AS 
+SELECT * FROM personal p
+INNER JOIN `courses` c
+ON p.`courses` = c.`course_id`
+
+bad ma hum view ko alter ya drop bhe kar sakte hai
+-----------for showing view result
+SELECT * FROM studentdata
+
+----------------alter view
+ALTER VIEW studentdata
+AS 
+SELECT p.id, p.name, ci.cityname, cs.course_name
+FROM personal p
+INNER JOIN city ci
+ON p.city = ci.cid
+INNER JOIN courses cs
+ON p.courses = cs.course_id
+
+-----also use for alter 
+CREATE OR REPLACE VIEW studentdata
+AS 
+SELECT p.id, p.name, ci.cityname, cs.course_name
+FROM personal p
+INNER JOIN city ci
+ON p.city = ci.cid
+INNER JOIN courses cs
+ON p.courses = cs.course_id
+
+-----rename view
+RENAME TABLE studentdata 
+TO personaldata
+
+SELECT * FROM personaldata
+------------------for deleting view
+DROP VIEW personaldata
+
+-----important point related view
+view ka name table ki name se match nhi hnna chahya
+
+
+
+-------------------------index in mysql-----------------
+bht sara data hn to hum indexing karte hai columns p aise take data jaldi fetch hn
+CREATE INDEX index_name ON personal (NAME)
+
+index as liya banate hai take searching ko fast kar sakte
+
+---index kitne lage hai uski liya command hai
+SHOW INDEX FROM personal
+
+-------------drop index
+DROP INDEX index_name ON personal
+
+
+
+
+
+
+
+
 
 
 
